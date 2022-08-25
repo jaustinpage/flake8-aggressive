@@ -1,0 +1,24 @@
+name: check-installs
+
+on: pull_request
+
+jobs:
+  check-installs:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.8", "3.9", "3.10"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+      - name: update pip
+        run: pip install --upgrade pip
+      - name: Install poetry wheel
+        run: pip install poetry wheel
+      - name: install package
+        run: pip install .
